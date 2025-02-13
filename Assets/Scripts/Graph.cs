@@ -41,18 +41,13 @@ public class Graph : MonoBehaviour
                 Node newNode = new Node(r, c, nodeType);
                 nodes[r, c] = newNode;
                 newNode.position = new Vector3(r, 0, c);
+                Debug.Log("Node (" + newNode.position.x + ", " + newNode.position.z + ")");
+
                 if (nodeType == NodeType.blocked)
                 {
                     walls.Add(newNode);
                 }
-            }
-        }
 
-        // whatever
-        for (int c = 0; c < m_height; c++)
-        {
-            for (int r = 0; r < m_width; r++)
-            {
                 if (nodes[r, c].nodeType != NodeType.blocked)
                 {
                     nodes[r, c].neighbors = GetNeighbors(r, c, nodes, allDirections);
@@ -70,6 +65,8 @@ public class Graph : MonoBehaviour
     {
         List<Node> neighbors = new List<Node>();
 
+        Debug.Log(neighbors.Count);
+
         foreach (Vector2 dir in directions)
         {
             int newX = x + (int)dir.x;
@@ -79,6 +76,8 @@ public class Graph : MonoBehaviour
                 neighbors.Add(nodeArray[newX, newY]);
             }
         }
+
+        Debug.Log(neighbors.Count);
 
         return neighbors;
     }
