@@ -8,8 +8,8 @@ public class Graph : MonoBehaviour
     public List<Node> walls = new List<Node>();
 
     int[,] m_mapData;
-    int m_width;
-    int m_height;
+    int m_width = -1;
+    int m_height = -1;
 
     public static readonly Vector2[] allDirections = {
         new Vector2(1f, 1f),
@@ -19,7 +19,7 @@ public class Graph : MonoBehaviour
         new Vector2(0f, -1f),
         new Vector2(-1f, 1f),
         new Vector2(-1f, 0f),
-        new Vector2(-1f, 1f),
+        new Vector2(-1f, -1f),
     };
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,10 +47,16 @@ public class Graph : MonoBehaviour
                 {
                     walls.Add(newNode);
                 }
+            }
+        }
 
+        for (int c = 0; c < m_height; c++)
+        {
+            for (int r = 0; r < m_width; r++)
+            {
                 if (nodes[r, c].nodeType != NodeType.blocked)
                 {
-                    nodes[r, c].neighbors = GetNeighbors(r, c, nodes, allDirections);
+                    nodes[r, c].neighbors = GetNeighbors(r, c, nodes);
                 }
             }
         }
@@ -61,17 +67,17 @@ public class Graph : MonoBehaviour
         return x >= 0 && x < m_width && y >= 0 && y < m_height;
     }
 
-    public List<Node> GetNeighbors(int x, int y, Node[,] nodeArray, Vector2[] directions)
+    public List<Node> GetNeighbors(int x, int y, Node[,] nodeArray)
     {
         List<Node> neighbors = new List<Node>();
 
         Debug.Log("Current Node (" + nodeArray[x, y].position.x + ", " + nodeArray[x, y].position.z + ")");
 
-        foreach (Vector2 dir in directions)
+        foreach (Vector2 dir in allDirections)
         {
             int newX = x + (int)dir.x;
             int newY = y + (int)dir.y;
-            if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null && nodeArray[newX, newY].nodeType != NodeType.blocked)
+            if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null && nodeArray[newX, newY].nodeType == NodeType.open)
             {
                 neighbors.Add(nodeArray[newX, newY]);
             }

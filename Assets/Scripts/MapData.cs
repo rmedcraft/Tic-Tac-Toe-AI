@@ -23,8 +23,8 @@ public class MapData : MonoBehaviour
                 map[r, c] = 0;
             }
         }
-        map[0, 3] = 1;
-        map[1, 4] = 1;
+        // map[0, 3] = 1;
+        // map[1, 4] = 1;
         return map;
     }
 }
