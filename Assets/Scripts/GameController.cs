@@ -7,9 +7,10 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (mapData == null && graph != null)
+        if (mapData != null && graph != null)
         {
-            // idk :3
+            int[,] mapInstance = mapData.MakeMap();
+            graph.Init(mapInstance);
         }
     }
 
