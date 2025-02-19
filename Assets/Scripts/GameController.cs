@@ -11,6 +11,15 @@ public class GameController : MonoBehaviour
         {
             int[,] mapInstance = mapData.MakeMap();
             graph.Init(mapInstance);
+            GraphView graphView = graph.gameObject.GetComponent<GraphView>();
+            if (graphView != null)
+            {
+                graphView.Init(graph);
+            }
+            else
+            {
+                Debug.Log("No graph view is found");
+            }
         }
     }
 

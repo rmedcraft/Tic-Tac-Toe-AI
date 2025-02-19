@@ -71,7 +71,7 @@ public class Graph : MonoBehaviour
     {
         List<Node> neighbors = new List<Node>();
 
-        Debug.Log("Current Node (" + nodeArray[x, y].position.x + ", " + nodeArray[x, y].position.z + ")");
+        // Debug.Log("Current Node (" + nodeArray[x, y].position.x + ", " + nodeArray[x, y].position.z + ")");
 
         foreach (Vector2 dir in allDirections)
         {
@@ -83,7 +83,7 @@ public class Graph : MonoBehaviour
             }
         }
 
-        Debug.Log("Neighbor count: " + neighbors.Count);
+        // Debug.Log("Neighbor count: " + neighbors.Count);
         return neighbors;
     }
 }
