@@ -3,6 +3,8 @@ using UnityEngine;
 public class GraphView : MonoBehaviour
 {
     public GameObject nodeViewPrefab;
+    public Color openColor = Color.white;
+    public Color blockedColor = Color.black;
     public void Init(Graph graph)
     {
         if (graph == null)
@@ -18,7 +20,14 @@ public class GraphView : MonoBehaviour
             if (nodeView != null)
             {
                 nodeView.Init(n);
-                
+                if (n.nodeType == NodeType.blocked)
+                {
+                    nodeView.ColorNode(blockedColor);
+                }
+                else
+                {
+                    nodeView.ColorNode(openColor);
+                }
             }
         }
     }

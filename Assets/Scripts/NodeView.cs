@@ -14,4 +14,18 @@ public class NodeView : MonoBehaviour
             gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         }
     }
+
+    void ColorNode(Color color, GameObject gameObject)
+    {
+        if (gameObject != null)
+        {
+            Renderer gameObjectRenderer = gameObject.GetComponent<Renderer>();
+            gameObjectRenderer.material.color = color;
+        }
+    }
+
+    public void ColorNode(Color color)
+    {
+        ColorNode(color, tile);
+    }
 }
