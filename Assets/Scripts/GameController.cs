@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
         {
             int[,] mapInstance = mapData.MakeMap();
             graph.Init(mapInstance);
-            GraphView graphView = graph.gameObject.GetComponent<GraphView>();
+            GraphView graphView = graph.GetComponent<GraphView>();
             if (graphView != null)
             {
                 graphView.Init(graph);

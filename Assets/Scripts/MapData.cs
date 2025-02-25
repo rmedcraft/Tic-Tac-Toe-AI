@@ -43,6 +43,7 @@ public class MapData : MonoBehaviour
     public int[,] MakeMap()
     {
         List<string> lines = getTextFromFile();
+        getDimensions(lines);
         int[,] map = new int[width, height];
         for (int r = 0; r < width; r++)
         {
@@ -51,8 +52,8 @@ public class MapData : MonoBehaviour
                 map[r, c] = (int)char.GetNumericValue(lines[r][c]);
             }
         }
-        map[0, 3] = 1;
-        map[1, 4] = 1;
+        // map[0, 3] = 1;
+        // map[1, 4] = 1;
         return map;
     }
 }
