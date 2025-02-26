@@ -3,6 +3,7 @@ using UnityEngine;
 public class NodeView : MonoBehaviour
 {
     public GameObject tile;
+    public float borderSize = 0.15f;
     public void Init(Node node)
     {
         if (tile != null)
@@ -10,10 +11,8 @@ public class NodeView : MonoBehaviour
             // gameObject refers to the NodeView gameObject
             // gameObject is kinda like saying this.something() in every other programming language
             gameObject.name = "Node (" + node.position.x + ", " + node.position.z + ")";
-            Debug.Log("HERE!!!");
             gameObject.transform.position = node.position;
-            Debug.Log(gameObject.transform.position.x + ", " + gameObject.transform.position.z);
-            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+            gameObject.transform.localScale = new Vector3(1f - borderSize, 1f, 1f - borderSize);
         }
         else
         {
