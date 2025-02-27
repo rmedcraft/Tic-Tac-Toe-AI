@@ -10,9 +10,9 @@ public class NodeView : MonoBehaviour
         {
             // gameObject refers to the NodeView gameObject
             // gameObject is kinda like saying this.something() in every other programming language
-            gameObject.name = "Node (" + node.position.x + ", " + node.position.z + ")";
-            gameObject.transform.position = node.position;
-            gameObject.transform.localScale = new Vector3(1f - borderSize, 1f, 1f - borderSize);
+            tile.name = "Node (" + node.position.x + ", " + node.position.z + ")";
+            tile.transform.position = node.position;
+            tile.transform.localScale = new Vector3(1f - borderSize, 1f, 1f - borderSize);
         }
         else
         {
@@ -25,7 +25,7 @@ public class NodeView : MonoBehaviour
         if (gameObject != null)
         {
             Renderer gameObjectRenderer = gameObject.GetComponent<Renderer>();
-            gameObjectRenderer.sharedMaterial.color = color;
+            gameObjectRenderer.material.color = color;
         }
     }
 

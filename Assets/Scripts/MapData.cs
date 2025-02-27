@@ -30,7 +30,10 @@ public class MapData : MonoBehaviour
     public void getDimensions(List<string> textLines)
     {
         height = textLines.Count();
-        width = textLines[0].Length;
+        foreach (string line in textLines)
+        {
+            width = line.Length;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,7 +52,7 @@ public class MapData : MonoBehaviour
         {
             for (int c = 0; c < height; c++)
             {
-                map[r, c] = (int)char.GetNumericValue(lines[r][c]);
+                map[r, c] = (int)char.GetNumericValue(lines[c][r]);
             }
         }
         // map[0, 3] = 1;

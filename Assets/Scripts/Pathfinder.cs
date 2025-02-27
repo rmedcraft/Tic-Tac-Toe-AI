@@ -41,9 +41,22 @@ public class Pathfinder : MonoBehaviour
         {
             startNodeView.ColorNode(startColor);
         }
+        else
+        {
+            Debug.LogWarning("StartNodeView does not exist");
+        }
         if (goalNodeView != null)
         {
             goalNodeView.ColorNode(goalColor);
+        }
+        else
+        {
+            Debug.LogWarning("GoalNodeView does not exist");
+
+        }
+        foreach (Node n in pathNodes)
+        {
+
         }
     }
 

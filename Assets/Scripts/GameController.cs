@@ -7,8 +7,8 @@ public class GameController : MonoBehaviour
     public Pathfinder pathfinder;
     public int startx = 0;
     public int starty = 0;
-    public int goalx = 4;
-    public int goaly = 4;
+    public int goalx = 1;
+    public int goaly = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
