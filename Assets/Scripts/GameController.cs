@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public int starty = 0;
     public int goalx = 1;
     public int goaly = 1;
+    public float timeStep = 0.1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,7 +31,7 @@ public class GameController : MonoBehaviour
                 Node startNode = graph.nodes[startx, starty];
                 Node goalNode = graph.nodes[goalx, goaly];
                 pathfinder.Init(graph, graphView, startNode, goalNode);
-
+                StartCoroutine(pathfinder.SearchRoutine(timeStep));
             }
             else
             {

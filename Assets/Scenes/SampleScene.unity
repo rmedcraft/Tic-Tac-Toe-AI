@@ -411,8 +411,9 @@ MonoBehaviour:
   pathfinder: {fileID: 1713012690}
   startx: 0
   starty: 0
-  goalx: 1
-  goaly: 1
+  goalx: 6
+  goaly: 4
+  timeStep: 0.1
 --- !u!4 &580853934
 Transform:
   m_ObjectHideFlags: 0

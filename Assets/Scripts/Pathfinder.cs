@@ -40,6 +40,10 @@ public class Pathfinder : MonoBehaviour
         this.graphView = graphView;
         this.start = start;
         this.goal = goal;
+        frontierNodes = new Queue<Node>();
+        frontierNodes.Enqueue(start);
+        pathNodes = new List<Node>();
+        exploreNodes = new List<Node>();
 
         for (int r = 0; r < graph.getWidth(); r++)
         {
@@ -48,6 +52,8 @@ public class Pathfinder : MonoBehaviour
                 this.graph.nodes[r, c].Reset();
             }
         }
+
+        showColors(graphView, start, goal);
 
         isComplete = false;
         iterations = 0;
@@ -62,6 +68,19 @@ public class Pathfinder : MonoBehaviour
 
         NodeView startNodeView = graphView.nodeViews[start.xIndex, start.yIndex];
         NodeView goalNodeView = graphView.nodeViews[goal.xIndex, goal.yIndex];
+
+        if (frontierNodes != null)
+        {
+            graphView.ColorNodes(frontierNodes.ToList(), frontierColor);
+        }
+        if (exploreNodes != null)
+        {
+            graphView.ColorNodes(exploreNodes, exploreColor);
+        }
+        if (pathNodes != null)
+        {
+            graphView.ColorNodes(pathNodes, pathColor);
+        }
 
         if (startNodeView != null)
         {
@@ -80,18 +99,7 @@ public class Pathfinder : MonoBehaviour
             Debug.LogWarning("GoalNodeView does not exist");
         }
 
-        if (frontierNodes != null)
-        {
-            graphView.ColorNodes(frontierNodes.ToList(), frontierColor);
-        }
-        if (exploreNodes != null)
-        {
-            graphView.ColorNodes(exploreNodes, exploreColor);
-        }
-        if (pathNodes != null)
-        {
-            graphView.ColorNodes(pathNodes, pathColor);
-        }
+
     }
 
     public IEnumerator SearchRoutine(float timeStep = 0.1f)
@@ -110,6 +118,10 @@ public class Pathfinder : MonoBehaviour
                 ExpandFrontier(currentNode);
 
                 yield return new WaitForSeconds(timeStep);
+            }
+            else
+            {
+                isComplete = true;
             }
             showColors(graphView, start, goal);
         }
