@@ -95,8 +95,7 @@ public class Pathfinder : MonoBehaviour {
                     exploreNodes.Add(currentNode);
                 }
                 ExpandFrontier(currentNode);
-                if (frontierNodes.Contains(goal))
-                {
+                if (frontierNodes.Contains(goal)) {
                     pathNodes = GetPathNodes(goal);
                     showColors(graphView, start, goal);
                     isComplete = true;
@@ -119,17 +118,14 @@ public class Pathfinder : MonoBehaviour {
         }
     }
 
-    List<Node> GetPathNodes(Node goalNode)
-    {
+    List<Node> GetPathNodes(Node goalNode) {
         List<Node> path = new List<Node>();
-        if (goalNode == null)
-        {
+        if (goalNode == null) {
             return path;
         }
         path.Add(goalNode);
         Node currentNode = goalNode.prev;
-        while (currentNode != null)
-        {
+        while (currentNode != null) {
             path.Insert(0, currentNode);
             currentNode = currentNode.prev;
         }
