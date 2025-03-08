@@ -16,7 +16,7 @@ public class Pathfinder : MonoBehaviour {
     public Color startColor = Color.green;
     public Color goalColor = Color.red;
     public Color frontierColor = Color.magenta;
-    public Color exploreColor = Color.gray;
+    public Color exploreColor = Color.blue;
     public Color pathColor = Color.cyan;
 
     public bool isComplete;
@@ -95,6 +95,12 @@ public class Pathfinder : MonoBehaviour {
                     exploreNodes.Add(currentNode);
                 }
                 ExpandFrontier(currentNode);
+                if (frontierNodes.Contains(goal))
+                {
+                    pathNodes = GetPathNodes(goal);
+                    showColors(graphView, start, goal);
+                    isComplete = true;
+                }
 
                 yield return new WaitForSeconds(timeStep);
             } else {
@@ -111,5 +117,22 @@ public class Pathfinder : MonoBehaviour {
                 frontierNodes.Enqueue(node.neighbors[i]);
             }
         }
+    }
+
+    List<Node> GetPathNodes(Node goalNode)
+    {
+        List<Node> path = new List<Node>();
+        if (goalNode == null)
+        {
+            return path;
+        }
+        path.Add(goalNode);
+        Node currentNode = goalNode.prev;
+        while (currentNode != null)
+        {
+            path.Insert(0, currentNode);
+            currentNode = currentNode.prev;
+        }
+        return path;
     }
 }
