@@ -3,8 +3,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections;
 
-public class Pathfinder : MonoBehaviour
-{
+public class Pathfinder : MonoBehaviour {
     Node start;
     Node goal;
 
@@ -23,15 +22,12 @@ public class Pathfinder : MonoBehaviour
     public bool isComplete;
     public int iterations;
 
-    public void Init(Graph graph, GraphView graphView, Node start, Node goal)
-    {
-        if (start == null || goal == null || graphView == null || graph == null)
-        {
+    public void Init(Graph graph, GraphView graphView, Node start, Node goal) {
+        if (start == null || goal == null || graphView == null || graph == null) {
             Debug.LogWarning("Pathfinder error: Missing components.");
             return;
         }
-        if (start.nodeType == NodeType.blocked || goal.nodeType == NodeType.blocked)
-        {
+        if (start.nodeType == NodeType.blocked || goal.nodeType == NodeType.blocked) {
             Debug.LogWarning("Pathfinder error: Make sure start and goal nodes are open");
             return;
         }
@@ -45,10 +41,8 @@ public class Pathfinder : MonoBehaviour
         pathNodes = new List<Node>();
         exploreNodes = new List<Node>();
 
-        for (int r = 0; r < graph.getWidth(); r++)
-        {
-            for (int c = 0; c < graph.getHeight(); c++)
-            {
+        for (int r = 0; r < graph.getWidth(); r++) {
+            for (int c = 0; c < graph.getHeight(); c++) {
                 this.graph.nodes[r, c].Reset();
             }
         }
@@ -59,80 +53,60 @@ public class Pathfinder : MonoBehaviour
         iterations = 0;
     }
 
-    public void showColors(GraphView graphView, Node start, Node goal)
-    {
-        if (graphView == null || start == null || goal == null)
-        {
+    public void showColors(GraphView graphView, Node start, Node goal) {
+        if (graphView == null || start == null || goal == null) {
             return;
         }
 
         NodeView startNodeView = graphView.nodeViews[start.xIndex, start.yIndex];
         NodeView goalNodeView = graphView.nodeViews[goal.xIndex, goal.yIndex];
 
-        if (frontierNodes != null)
-        {
+        if (frontierNodes != null) {
             graphView.ColorNodes(frontierNodes.ToList(), frontierColor);
         }
-        if (exploreNodes != null)
-        {
+        if (exploreNodes != null) {
             graphView.ColorNodes(exploreNodes, exploreColor);
         }
-        if (pathNodes != null)
-        {
+        if (pathNodes != null) {
             graphView.ColorNodes(pathNodes, pathColor);
         }
 
-        if (startNodeView != null)
-        {
+        if (startNodeView != null) {
             startNodeView.ColorNode(startColor);
-        }
-        else
-        {
+        } else {
             Debug.LogWarning("StartNodeView does not exist");
         }
-        if (goalNodeView != null)
-        {
+        if (goalNodeView != null) {
             goalNodeView.ColorNode(goalColor);
-        }
-        else
-        {
+        } else {
             Debug.LogWarning("GoalNodeView does not exist");
         }
 
 
     }
 
-    public IEnumerator SearchRoutine(float timeStep = 0.1f)
-    {
+    public IEnumerator SearchRoutine(float timeStep = 0.1f) {
         yield return null;
-        while (!isComplete)
-        {
-            if (frontierNodes.Count > 0)
-            {
+        while (!isComplete) {
+            if (frontierNodes.Count > 0) {
                 Node currentNode = frontierNodes.Dequeue();
                 iterations++;
-                if (!exploreNodes.Contains(currentNode))
-                {
+                if (!exploreNodes.Contains(currentNode)) {
                     exploreNodes.Add(currentNode);
                 }
                 ExpandFrontier(currentNode);
 
                 yield return new WaitForSeconds(timeStep);
-            }
-            else
-            {
+            } else {
                 isComplete = true;
             }
             showColors(graphView, start, goal);
         }
     }
 
-    public void ExpandFrontier(Node node)
-    {
-        for (int i = 0; i < node.neighbors.Count; i++)
-        {
-            if (!exploreNodes.Contains(node.neighbors[i]) && !frontierNodes.Contains(node.neighbors[i]))
-            {
+    public void ExpandFrontier(Node node) {
+        for (int i = 0; i < node.neighbors.Count; i++) {
+            if (!exploreNodes.Contains(node.neighbors[i]) && !frontierNodes.Contains(node.neighbors[i])) {
                 node.neighbors[i].prev = node;
                 frontierNodes.Enqueue(node.neighbors[i]);
             }

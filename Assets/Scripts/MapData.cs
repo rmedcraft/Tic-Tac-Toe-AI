@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MapData : MonoBehaviour
-{
+public class MapData : MonoBehaviour {
     public int height = 5;
     public int width = 5;
 
     public TextAsset text;
 
-    public List<string> getTextFromFile(TextAsset text)
-    {
+    public List<string> getTextFromFile(TextAsset text) {
         List<string> line = new List<string>();
-        if (text != null)
-        {
+        if (text != null) {
             string textData = text.text;
             string[] delimeters = { "\r\n", "\n" };
             line = textData.Split(delimeters, System.StringSplitOptions.None).ToList();
@@ -22,36 +19,29 @@ public class MapData : MonoBehaviour
         return line;
     }
 
-    public List<string> getTextFromFile()
-    {
+    public List<string> getTextFromFile() {
         return getTextFromFile(text);
     }
 
-    public void getDimensions(List<string> textLines)
-    {
+    public void getDimensions(List<string> textLines) {
         height = textLines.Count();
-        foreach (string line in textLines)
-        {
+        foreach (string line in textLines) {
             width = line.Length;
         }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
 
     }
 
     // syntax for making a 2D array
-    public int[,] MakeMap()
-    {
+    public int[,] MakeMap() {
         List<string> lines = getTextFromFile();
         getDimensions(lines);
         int[,] map = new int[width, height];
-        for (int r = 0; r < width; r++)
-        {
-            for (int c = 0; c < height; c++)
-            {
+        for (int r = 0; r < width; r++) {
+            for (int c = 0; c < height; c++) {
                 map[r, c] = (int)char.GetNumericValue(lines[c][r]);
             }
         }
