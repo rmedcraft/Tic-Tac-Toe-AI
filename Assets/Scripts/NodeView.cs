@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NodeView : MonoBehaviour {
     public GameObject tile;
-    public float borderSize = 0.15f;
+    public float borderSize = 0.05f;
     public void Init(Node node) {
         if (tile != null) {
             // gameObject refers to the NodeView gameObject

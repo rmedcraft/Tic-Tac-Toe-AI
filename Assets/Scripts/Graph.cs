@@ -7,67 +7,65 @@ public class Graph : MonoBehaviour {
     public List<Node> walls = new List<Node>();
 
     int[,] m_mapData;
-    int m_width = -1;
-    int m_height = -1;
+    int width = 12;
+    int height = 7;
 
     public static readonly Vector2[] allDirections = {
-        // new Vector2(1f, 1f),
+        new Vector2(1f, 1f),
         new Vector2(1f, 0f),
-        // new Vector2(1f, -1f),
+        new Vector2(1f, -1f),
         new Vector2(0f, 1f),
         new Vector2(0f, -1f),
-        // new Vector2(-1f, 1f),
+        new Vector2(-1f, 1f),
         new Vector2(-1f, 0f),
-        // new Vector2(-1f, -1f),
+        new Vector2(-1f, -1f),
     };
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
 
     }
 
-    public int getWidth() {
-        return m_width;
+    public int GetWidth() {
+        return width;
     }
-    public int getHeight() {
-        return m_height;
+    public int GetHeight() {
+        return height;
     }
 
-    public void Init(int[,] mapData) {
-        m_mapData = mapData;
-        m_width = mapData.GetLength(0);
-        m_height = mapData.GetLength(1);
-        nodes = new Node[m_width, m_height];
-        for (int c = 0; c < m_height; c++) {
-            for (int r = 0; r < m_width; r++) {
-                NodeType nodeType = (NodeType)mapData[r, c];
-                Node newNode = new Node(r, c, nodeType);
-                nodes[r, c] = newNode;
-                newNode.position = new Vector3(r, 0, c);
-                Debug.Log("Node (" + newNode.position.x + ", " + newNode.position.z + ")");
-
-                if (nodeType == NodeType.blocked) {
-                    walls.Add(newNode);
+    public void GenerateBoard() {
+        for (int r = 0; r < width; r++) {
+            for (int c = 0; c < height; c++) {
+                NodeType nodeType = NodeType.open;
+                if (Random.Range(0, 5) == 0) {
+                    nodeType = NodeType.mine;
                 }
+                nodes[r, c] = new Node(r, c, nodeType);
             }
         }
+    }
 
-        for (int c = 0; c < m_height; c++) {
-            for (int r = 0; r < m_width; r++) {
-                if (nodes[r, c].nodeType != NodeType.blocked) {
-                    nodes[r, c].neighbors = GetNeighbors(r, c, nodes);
-                }
+    public void Init() {
+        nodes = new Node[width, height];
+
+
+        GenerateBoard();
+
+        // count the mines bordering each node after all nodes are declared as a mine or not
+        for (int r = 0; r < width; r++) {
+            for (int c = 0; c < height; c++) {
+
+                nodes[r, c].neighbors = GetNeighbors(r, c, nodes);
+                nodes[r, c].CountMines();
             }
         }
     }
 
     public bool IsWithinBounds(int x, int y) {
-        return x >= 0 && x < m_width && y >= 0 && y < m_height;
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public List<Node> GetNeighbors(int x, int y, Node[,] nodeArray) {
         List<Node> neighbors = new List<Node>();
-
-        // Debug.Log("Current Node (" + nodeArray[x, y].position.x + ", " + nodeArray[x, y].position.z + ")");
 
         foreach (Vector2 dir in allDirections) {
             int newX = x + (int)dir.x;
@@ -77,7 +75,6 @@ public class Graph : MonoBehaviour {
             }
         }
 
-        // Debug.Log("Neighbor count: " + neighbors.Count);
         return neighbors;
     }
 }

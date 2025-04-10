@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class GraphView : MonoBehaviour {
     public GameObject nodeViewPrefab;
+    public Color closedColor = Color.gray;
     public Color openColor = Color.white;
-    public Color blockedColor = Color.black;
+    public Color mineColor = Color.red;
     public NodeView[,] nodeViews;
 
     public void Init(Graph graph) {
@@ -13,7 +14,7 @@ public class GraphView : MonoBehaviour {
             return;
         }
 
-        nodeViews = new NodeView[graph.getWidth(), graph.getHeight()];
+        nodeViews = new NodeView[graph.GetWidth(), graph.GetHeight()];
         foreach (Node n in graph.nodes) {
             GameObject instance = Instantiate(nodeViewPrefab, Vector3.zero, Quaternion.identity);
             NodeView nodeView = instance.GetComponent<NodeView>();
@@ -21,8 +22,8 @@ public class GraphView : MonoBehaviour {
             if (nodeView != null) {
                 nodeView.Init(n);
                 nodeViews[n.xIndex, n.yIndex] = nodeView;
-                if (n.nodeType == NodeType.blocked) {
-                    nodeView.ColorNode(blockedColor);
+                if (n.nodeType == NodeType.mine) {
+                    nodeView.ColorNode(mineColor);
                 } else {
                     nodeView.ColorNode(openColor);
                 }
