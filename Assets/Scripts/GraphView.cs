@@ -22,11 +22,12 @@ public class GraphView : MonoBehaviour {
             if (nodeView != null) {
                 nodeView.Init(n);
                 nodeViews[n.xIndex, n.yIndex] = nodeView;
-                if (n.nodeType == NodeType.mine) {
-                    nodeView.ColorNode(mineColor);
-                } else {
-                    nodeView.ColorNode(openColor);
-                }
+                nodeView.ColorNode(closedColor);
+                // if (n.nodeType == NodeType.mine) {
+                //     nodeView.ColorNode(mineColor);
+                // } else {
+                //     nodeView.ColorNode(openColor);
+                // }
             }
         }
     }

@@ -32,23 +32,46 @@ public class Graph : MonoBehaviour {
         return height;
     }
 
-    public void GenerateBoard() {
-        for (int r = 0; r < width; r++) {
-            for (int c = 0; c < height; c++) {
-                NodeType nodeType = NodeType.open;
-                if (Random.Range(0, 5) == 0) {
-                    nodeType = NodeType.mine;
-                }
-                nodes[r, c] = new Node(r, c, nodeType);
+    public void GenerateBoard(int mines) {
+        // for (int r = 0; r < width; r++) {
+        //     for (int c = 0; c < height; c++) {
+        //         NodeType nodeType = NodeType.open;
+        //         if (Random.Range(0, 5) == 0) {
+        //             nodeType = NodeType.mine;
+        //         }
+        //         nodes[r, c] = new Node(r, c, nodeType);
+        //     }
+        // }
+
+        for (int i = 0; i < mines; i++) {
+            int randRow = Random.Range(0, width);
+            int randCol = Random.Range(0, height);
+
+            // keep generating random numbers until we get a pos without a mine
+            while (nodes[randRow, randCol].nodeType == NodeType.mine) {
+                randRow = Random.Range(0, width);
+                randCol = Random.Range(0, height);
             }
+
+            nodes[randRow, randCol].nodeType = NodeType.mine;
         }
     }
 
     public void Init() {
         nodes = new Node[width, height];
 
+        for (int r = 0; r < width; r++) {
+            for (int c = 0; c < height; c++) {
+                nodes[r, c] = new Node(r, c, NodeType.open);
+            }
+        }
 
-        GenerateBoard();
+        int numMines = (int)(width * height * 0.2);
+        GenerateBoard(numMines);
+        Debug.Log("numMines: " + numMines);
+
+        Debug.Log("actual mines: " + CountMines());
+
 
         // count the mines bordering each node after all nodes are declared as a mine or not
         for (int r = 0; r < width; r++) {
@@ -58,6 +81,16 @@ public class Graph : MonoBehaviour {
                 nodes[r, c].CountMines();
             }
         }
+    }
+
+    public int CountMines() {
+        int mines = 0;
+        foreach (Node n in nodes) {
+            if (n.nodeType == NodeType.mine) {
+                mines++;
+            }
+        }
+        return mines;
     }
 
     public bool IsWithinBounds(int x, int y) {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum NodeType {
     open = 0,
-    mine = 1
+    mine = 1,
 }
 
 public class Node {
