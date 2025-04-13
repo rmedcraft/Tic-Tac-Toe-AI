@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     public Graph graph;
-    public BoardSolver boardSolver;
     public int startx = 0;
     public int starty = 0;
     public float timeStep = 0.1f;
