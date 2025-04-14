@@ -5,7 +5,7 @@ public class NodeView : MonoBehaviour {
     public float borderSize = 0.01f;
 
     Node node;
-    public ViewType viewType = ViewType.closed;
+    // public ViewType viewType = ViewType.closed;
     public void Init(Node node) {
         if (tile != null) {
             this.node = node;
@@ -14,6 +14,9 @@ public class NodeView : MonoBehaviour {
             tile.name = "Node (" + node.position.x + ", " + node.position.z + ")";
             tile.transform.position = node.position;
             tile.transform.localScale = new Vector3(1f - borderSize, 1f, 1f - borderSize);
+
+            // Adds a hitbox to each tile, necessary for click detection
+            tile.AddComponent<BoxCollider>();
         } else {
             Debug.LogWarning("Tile does not exist!");
         }
@@ -40,14 +43,9 @@ public class NodeView : MonoBehaviour {
             // out hit means to store the output in the hit object
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.gameObject == tile) {
-                    viewType = ViewType.open;
+                    // viewType = ViewType.open;
                 }
             }
         }
     }
-}
-
-public enum ViewType {
-    open = 0,
-    closed = 1,
 }

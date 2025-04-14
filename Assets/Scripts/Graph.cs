@@ -7,8 +7,8 @@ public class Graph : MonoBehaviour {
     public List<Node> walls = new List<Node>();
 
     int[,] m_mapData;
-    int width = 12;
-    int height = 7;
+    int width = 3;
+    int height = 3;
 
     public static readonly Vector2[] allDirections = {
         new Vector2(1f, 1f),
@@ -65,34 +65,7 @@ public class Graph : MonoBehaviour {
                 nodes[r, c] = new Node(r, c, NodeType.open);
             }
         }
-
-        int numMines = (int)(width * height * 0.2);
-        GenerateBoard(numMines);
-        Debug.Log("numMines: " + numMines);
-
-        Debug.Log("actual mines: " + CountMines());
-
-
-        // count the mines bordering each node after all nodes are declared as a mine or not
-        for (int r = 0; r < width; r++) {
-            for (int c = 0; c < height; c++) {
-
-                nodes[r, c].neighbors = GetNeighbors(r, c, nodes);
-                nodes[r, c].CountMines();
-            }
-        }
     }
-
-    public int CountMines() {
-        int mines = 0;
-        foreach (Node n in nodes) {
-            if (n.nodeType == NodeType.mine) {
-                mines++;
-            }
-        }
-        return mines;
-    }
-
     public bool IsWithinBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }

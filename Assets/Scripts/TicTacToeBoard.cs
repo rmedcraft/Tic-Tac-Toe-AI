@@ -6,6 +6,11 @@ public enum CellState {
 public class TicTacToeBoard {
     public CellState[,] board = new CellState[3, 3];
     // Initializes the board by resetting all cells to empty
+
+    public void Init() {
+        
+    }
+    
     public void ResetBoard() {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
