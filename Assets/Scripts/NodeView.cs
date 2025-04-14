@@ -3,13 +3,15 @@ using UnityEngine;
 public class NodeView : MonoBehaviour {
     public GameObject tile;
     public float borderSize = 0.01f;
+    TicTacToeGame game;
 
     TextMesh text;
     Node node;
     // public ViewType viewType = ViewType.closed;
-    public void Init(Node node) {
+    public void Init(Node node, TicTacToeGame game) {
         if (tile != null) {
             this.node = node;
+            this.game = game;
             // gameObject refers to the NodeView gameObject
             // gameObject is kinda like saying this.something() in every other programming language
             tile.name = "Node (" + node.position.x + ", " + node.position.z + ")";
@@ -19,8 +21,8 @@ public class NodeView : MonoBehaviour {
             // Adds a hitbox to each tile, necessary for click detection
             tile.AddComponent<BoxCollider>();
 
+            // all for adding text to the nodeview
             GameObject t = new GameObject();
-
             text = t.AddComponent<TextMesh>();
             text.text = "";
             text.fontSize = 40;
@@ -58,7 +60,8 @@ public class NodeView : MonoBehaviour {
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.gameObject == tile) {
                     // viewType = ViewType.open;
-                    DrawText("X");
+                    Debug.Log("Clicked: (" + node.xIndex + ", " + node.yIndex + ")");
+                    game.OnCellClicked(node.xIndex, node.yIndex);
                 }
             }
         }

@@ -6,6 +6,8 @@ public class Graph : MonoBehaviour {
     public Node[,] nodes; //Array of nodes
     public List<Node> walls = new List<Node>();
 
+    TicTacToeGame game;
+
     int[,] m_mapData;
     int width = 3;
     int height = 3;
@@ -32,37 +34,14 @@ public class Graph : MonoBehaviour {
         return height;
     }
 
-    public void GenerateBoard(int mines) {
-        // for (int r = 0; r < width; r++) {
-        //     for (int c = 0; c < height; c++) {
-        //         NodeType nodeType = NodeType.open;
-        //         if (Random.Range(0, 5) == 0) {
-        //             nodeType = NodeType.mine;
-        //         }
-        //         nodes[r, c] = new Node(r, c, nodeType);
-        //     }
-        // }
+    public void Init(TicTacToeGame game) {
+        this.game = game;
 
-        for (int i = 0; i < mines; i++) {
-            int randRow = Random.Range(0, width);
-            int randCol = Random.Range(0, height);
-
-            // keep generating random numbers until we get a pos without a mine
-            while (nodes[randRow, randCol].nodeType == NodeType.mine) {
-                randRow = Random.Range(0, width);
-                randCol = Random.Range(0, height);
-            }
-
-            nodes[randRow, randCol].nodeType = NodeType.mine;
-        }
-    }
-
-    public void Init() {
         nodes = new Node[width, height];
 
         for (int r = 0; r < width; r++) {
             for (int c = 0; c < height; c++) {
-                nodes[r, c] = new Node(r, c, NodeType.open);
+                nodes[r, c] = new Node(r, c, CellState.Empty);
             }
         }
     }
@@ -76,7 +55,7 @@ public class Graph : MonoBehaviour {
         foreach (Vector2 dir in allDirections) {
             int newX = x + (int)dir.x;
             int newY = y + (int)dir.y;
-            if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null && nodeArray[newX, newY].nodeType == NodeType.open) {
+            if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null) {
                 neighbors.Add(nodeArray[newX, newY]);
             }
         }

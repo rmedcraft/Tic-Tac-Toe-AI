@@ -4,28 +4,34 @@ public class TicTacToeGame : MonoBehaviour {
     public bool isPlayerXTurn = true; // Player X starts
 
     public Graph graph;
+    GraphView graphView;
 
     // Initializes the game
     public void Start() {
-        board = new TicTacToeBoard();
-        board.ResetBoard();
-        UpdateBoardUI();
-
         if (graph != null) {
-            graph.Init();
-            GraphView graphView = graph.GetComponent<GraphView>();
+            graph.Init(this);
+            graphView = graph.GetComponent<GraphView>();
             if (graphView != null) {
-                graphView.Init(graph);
+                graphView.Init(graph, this);
             } else {
                 Debug.Log("No graph view is found");
             }
         }
+
+        board = new TicTacToeBoard();
+        board.Init(graph);
+        UpdateBoardUI();
     }
     // Called when a cell is clicked by the user
     public void OnCellClicked(int x, int y) {
-        if (board.board[x, y] == CellState.Empty && isPlayerXTurn) {
+        Debug.Log("Cell State: " + board.board[x, y].cellState);
+        Debug.Log("Is Player X Turn: " + isPlayerXTurn);
+
+        if (board.board[x, y].cellState == CellState.Empty && isPlayerXTurn) {
             // Player X places their move
-            board.board[x, y] = CellState.X;
+            board.board[x, y].cellState = CellState.X;
+            Debug.Log("OnCellClicked");
+
             isPlayerXTurn = false; // Switch turn to AI
             UpdateBoardUI(); // Update the UI
             if (CheckForWinner()) {
@@ -46,6 +52,8 @@ public class TicTacToeGame : MonoBehaviour {
     // Updates the UI to reflect the board state
     public void UpdateBoardUI() {
         // Implement logic for updating the UI with the current board state
+        Debug.Log("Update Board UI");
+        graphView.UpdateNodes();
     }
     // Makes the AI (Player O) take its turn
     public void AITurn() {
