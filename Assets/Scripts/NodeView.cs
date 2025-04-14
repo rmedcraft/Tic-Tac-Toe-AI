@@ -4,6 +4,7 @@ public class NodeView : MonoBehaviour {
     public GameObject tile;
     public float borderSize = 0.01f;
 
+    TextMesh text;
     Node node;
     // public ViewType viewType = ViewType.closed;
     public void Init(Node node) {
@@ -17,6 +18,19 @@ public class NodeView : MonoBehaviour {
 
             // Adds a hitbox to each tile, necessary for click detection
             tile.AddComponent<BoxCollider>();
+
+            GameObject t = new GameObject();
+
+            text = t.AddComponent<TextMesh>();
+            text.text = "";
+            text.fontSize = 40;
+            text.characterSize = 0.2f;
+
+            text.transform.position = node.position;
+
+            text.transform.eulerAngles = new Vector3(90, 0, 0);
+            text.anchor = TextAnchor.MiddleCenter;
+
         } else {
             Debug.LogWarning("Tile does not exist!");
         }
@@ -50,15 +64,6 @@ public class NodeView : MonoBehaviour {
         }
     }
     public void DrawText(string s) {
-        GameObject text = new GameObject();
-        TextMesh t = text.AddComponent<TextMesh>();
-        t.text = s;
-        t.fontSize = 40;
-        t.characterSize = 0.2f;
-
-        t.transform.position = node.position;
-
-        t.transform.eulerAngles = new Vector3(90, 0, 0);
-        t.anchor = TextAnchor.MiddleCenter;
+        text.text = s;
     }
 }

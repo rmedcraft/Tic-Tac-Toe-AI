@@ -3,11 +3,23 @@ public class TicTacToeGame : MonoBehaviour {
     public TicTacToeBoard board;
     public bool isPlayerXTurn = true; // Player X starts
 
+    public Graph graph;
+
     // Initializes the game
     public void Start() {
         board = new TicTacToeBoard();
         board.ResetBoard();
         UpdateBoardUI();
+
+        if (graph != null) {
+            graph.Init();
+            GraphView graphView = graph.GetComponent<GraphView>();
+            if (graphView != null) {
+                graphView.Init(graph);
+            } else {
+                Debug.Log("No graph view is found");
+            }
+        }
     }
     // Called when a cell is clicked by the user
     public void OnCellClicked(int x, int y) {
