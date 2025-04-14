@@ -44,8 +44,21 @@ public class NodeView : MonoBehaviour {
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.gameObject == tile) {
                     // viewType = ViewType.open;
+                    DrawText("X");
                 }
             }
         }
+    }
+    public void DrawText(string s) {
+        GameObject text = new GameObject();
+        TextMesh t = text.AddComponent<TextMesh>();
+        t.text = s;
+        t.fontSize = 40;
+        t.characterSize = 0.2f;
+
+        t.transform.position = node.position;
+
+        t.transform.eulerAngles = new Vector3(90, 0, 0);
+        t.anchor = TextAnchor.MiddleCenter;
     }
 }

@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     public Graph graph;
-    public int startx = 0;
-    public int starty = 0;
     public float timeStep = 0.1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
