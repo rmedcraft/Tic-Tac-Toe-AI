@@ -38,7 +38,6 @@ public class GraphView : MonoBehaviour {
     }
 
     public void UpdateNodes() {
-        Debug.Log("Update nodes");
         foreach (Node n in graph.nodes) {
             Debug.Log(n.cellState);
             if (n != null) {
@@ -47,7 +46,6 @@ public class GraphView : MonoBehaviour {
                     if (n.cellState == CellState.Empty) {
                         nodeView.DrawText("");
                     } else if (n.cellState == CellState.X) {
-                        Debug.Log("Cell State X");
                         nodeView.DrawText("X");
                     } else if (n.cellState == CellState.O) {
                         nodeView.DrawText("O");

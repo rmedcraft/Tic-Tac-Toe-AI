@@ -59,8 +59,6 @@ public class NodeView : MonoBehaviour {
             // out hit means to store the output in the hit object
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.gameObject == tile) {
-                    // viewType = ViewType.open;
-                    Debug.Log("Clicked: (" + node.xIndex + ", " + node.yIndex + ")");
                     game.OnCellClicked(node.xIndex, node.yIndex);
                 }
             }
