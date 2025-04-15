@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum CellState {
+    Empty,
+    X,
+    O
+}
 public class Graph : MonoBehaviour {
     // Translates 1's and 0's from MapData.cs to an array of nodes
     public Node[,] nodes; //Array of nodes
@@ -45,6 +49,7 @@ public class Graph : MonoBehaviour {
             }
         }
     }
+
     public bool IsWithinBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
@@ -61,5 +66,23 @@ public class Graph : MonoBehaviour {
         }
 
         return neighbors;
+    }
+
+    public void ResetBoard() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                nodes[x, y].cellState = CellState.Empty;
+            }
+        }
+    }
+
+    // Checks if the board is full (no empty cells)
+    public bool IsBoardFull() {
+        foreach (Node n in nodes) {
+            if (n.cellState == CellState.Empty) {
+                return false;
+            }
+        }
+        return true;
     }
 }
