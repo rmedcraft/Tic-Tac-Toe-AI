@@ -44,8 +44,40 @@ public class TicTacToeGame : MonoBehaviour {
     // Checks if there is a winner
     public bool CheckForWinner() {
         // Implement logic for checking rows, columns, and diagonals
+        // initialize the list of winning pairs
+        Vector2[] dir1 = { new Vector2(1f, 1f), new Vector2(-1f, -1f) };
+        Vector2[] dir2 = { new Vector2(1f, 0f), new Vector2(-1f, 0f) };
+        Vector2[] dir3 = { new Vector2(1f, -1f), new Vector2(-1f, 1f) };
+        Vector2[] dir4 = { new Vector2(0f, 1f), new Vector2(0f, -1f) };
+        Vector2[][] checkDirections = { dir1, dir2, dir3, dir4 };
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                // check all directions, see if winner
+                Node n = board.board[r, c];
+                if (n.cellState == CellState.Empty) {
+                    continue;
+                }
+
+                foreach (Vector2[] dirs in checkDirections) {
+                    bool won = true;
+                    foreach (Vector2 dir in dirs) {
+
+                        int newX = (int)(n.position.x + dir.x);
+                        int newY = (int)(n.position.z + dir.y);
+                        if (!(graph.IsWithinBounds(newX, newY) && board.board[newX, newY].cellState == n.cellState)) {
+                            won = false;
+                            break;
+                        }
+                    }
+                    if (won) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
+    
     // Updates the UI to reflect the board state
     public void UpdateBoardUI() {
         // Implement logic for updating the UI with the current board state
@@ -58,6 +90,9 @@ public class TicTacToeGame : MonoBehaviour {
     // Implements the Minimax algorithm to evaluate possible moves
     public int Minimax(TicTacToeBoard board, bool isMaximizing) {
         // Implement the Minimax algorithm
+        if (CheckForWinner()) {
+
+        }
         return -1;
     }
     // Resets the game for a new match
