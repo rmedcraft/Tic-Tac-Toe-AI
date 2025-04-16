@@ -108,7 +108,12 @@ public class TicTacToeGame : MonoBehaviour {
         valToNode[valToNode.Min(x => x.Key)].cellState = CellState.O;
 
         UpdateBoardUI();
-        isPlayerXTurn = true;
+        if (CheckForWinner()) {
+            Debug.Log("Player O Wins!");
+            // Dont let player X go again if the game is over
+        } else {
+            isPlayerXTurn = true;
+        }
     }
     // Implements the Minimax algorithm to evaluate possible moves
     public int Minimax(Node[,] nodes, bool isMaximizing) {
