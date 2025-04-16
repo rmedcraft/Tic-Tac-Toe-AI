@@ -28,7 +28,7 @@ public class TicTacToeGame : MonoBehaviour {
         lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
         lineRenderer.startColor = Color.black;
         lineRenderer.endColor = Color.black;
-        lineRenderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        lineRenderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit")); // certain material needed for color to be black
         lineRenderer.startWidth = 0.05f;
         lineRenderer.endWidth = 0.05f;
         lineRenderer.positionCount = 2;
@@ -84,8 +84,11 @@ public class TicTacToeGame : MonoBehaviour {
                 }
                 if (won != 0) {
                     if (winLine) {
-                        Node n1 = graph.nodes[(int)(n.position.x + dirs[0].x), (int)(n.position.z + dirs[0].y)];
-                        Node n2 = graph.nodes[(int)(n.position.x + dirs[1].x), (int)(n.position.z + dirs[1].y)];
+
+                        // Node n1 = graph.nodes[(int)(n.position.x + dirs[0].x), (int)(n.position.z + dirs[0].y)];
+                        // Node n2 = graph.nodes[(int)(n.position.x + dirs[1].x), (int)(n.position.z + dirs[1].y)];
+                        Vector2 n1 = new Vector2(n.position.x + 1.25f * dirs[0].x, n.position.z + 1.25f * dirs[0].y);
+                        Vector2 n2 = new Vector2(n.position.x + 1.25f * dirs[1].x, n.position.z + 1.25f * dirs[1].y);
                         DrawWinLine(n1, n2);
                     }
                     return won;
@@ -95,10 +98,10 @@ public class TicTacToeGame : MonoBehaviour {
         return 0;
     }
 
-    public void DrawWinLine(Node n1, Node n2) {
+    public void DrawWinLine(Vector2 n1, Vector2 n2) {
         //For drawing line in the world space, provide the x,y,z values
-        lineRenderer.SetPosition(0, new Vector3(n1.position.x, 0, n1.position.z)); //x,y and z position of the starting point of the line
-        lineRenderer.SetPosition(1, new Vector3(n2.position.x, 0, n2.position.z)); //x,y and z position of the end point of the line
+        lineRenderer.SetPosition(0, new Vector3(n1.x, 0, n1.y)); //x,y and z position of the starting point of the line
+        lineRenderer.SetPosition(1, new Vector3(n2.x, 0, n2.y)); //x,y and z position of the end point of the line
     }
     public bool CheckForWinner() {
         return Utility(true) != 0;
