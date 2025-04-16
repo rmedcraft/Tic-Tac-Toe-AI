@@ -26,8 +26,9 @@ public class TicTacToeGame : MonoBehaviour {
         lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
         lineRenderer.startColor = Color.black;
         lineRenderer.endColor = Color.black;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
         lineRenderer.positionCount = 2;
         lineRenderer.useWorldSpace = true;
         lineRenderer.SetPosition(0, new Vector3(0, 0, 0));
