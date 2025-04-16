@@ -8,6 +8,8 @@ public class TicTacToeGame : MonoBehaviour {
     GraphView graphView;
     LineRenderer lineRenderer;
 
+    UIManager ui;
+
     // Initializes the game
     public void Start() {
         if (graph != null) {
@@ -36,7 +38,6 @@ public class TicTacToeGame : MonoBehaviour {
     }
     // Called when a cell is clicked by the user
     public void OnCellClicked(int x, int y) {
-
         if (graph.nodes[x, y].cellState == CellState.Empty && isPlayerXTurn) {
             // Player X places their move
             graph.nodes[x, y].cellState = CellState.X;
@@ -44,9 +45,9 @@ public class TicTacToeGame : MonoBehaviour {
             isPlayerXTurn = false; // Switch turn to AI
             UpdateBoardUI(); // Update the UI
             if (CheckForWinner()) {
-                Debug.Log("Player X wins!");
+                ui.pauseText.text = "Player X Wins!";
             } else if (graph.IsBoardFull()) {
-                Debug.Log("Its a draw!");
+                ui.pauseText.text = "Its a draw!";
             } else {
                 // Now it’s AI’s turn
                 AITurn();
@@ -132,7 +133,7 @@ public class TicTacToeGame : MonoBehaviour {
 
         UpdateBoardUI();
         if (CheckForWinner()) {
-            Debug.Log("Player O Wins!");
+            ui.pauseText.text = "Player O Wins!";
             // Dont let player X go again if the game is over
         } else {
             isPlayerXTurn = true;
@@ -164,17 +165,21 @@ public class TicTacToeGame : MonoBehaviour {
             n.cellState = CellState.Empty;
         }
 
-        if (isMaximizing) {
-            // return Mathf.Max();
-            return Enumerable.Max(resultList);
-        }
-        return Enumerable.Min(resultList);
+        return isMaximizing ? Enumerable.Max(resultList) : Enumerable.Min(resultList);
     }
     // Resets the game for a new match
     public void ResetGame() {
         graph.ResetBoard();
-        isPlayerXTurn = true; // Player X starts
+
+        lineRenderer.SetPosition(0, new Vector3(0, 0, 0));
+        lineRenderer.SetPosition(1, new Vector3(0, 0, 0));
 
         UpdateBoardUI();
+
+        isPlayerXTurn = true; // Player X starts
+    }
+
+    public void SetUI(UIManager ui) {
+        this.ui = ui;
     }
 }
