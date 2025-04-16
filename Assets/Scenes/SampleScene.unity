@@ -403,13 +403,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 580853932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 315fb6eb04c05c943b14845094c3026b, type: 3}
+  m_Script: {fileID: 11500000, guid: 230adf8bb43e2414ebb40464dc735134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerXTurn: 1
   graph: {fileID: 1912414420}
-  startx: 0
-  starty: 0
-  timeStep: 0.5
 --- !u!4 &580853934
 Transform:
   m_ObjectHideFlags: 0
