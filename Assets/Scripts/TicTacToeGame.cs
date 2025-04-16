@@ -6,6 +6,7 @@ public class TicTacToeGame : MonoBehaviour {
 
     public Graph graph;
     GraphView graphView;
+    LineRenderer lineRenderer;
 
     // Initializes the game
     public void Start() {
@@ -20,6 +21,17 @@ public class TicTacToeGame : MonoBehaviour {
         }
 
         UpdateBoardUI();
+
+        // parameters for the line indicating the end of the game
+        lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
+        lineRenderer.startColor = Color.black;
+        lineRenderer.endColor = Color.black;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.positionCount = 2;
+        lineRenderer.useWorldSpace = true;
+        lineRenderer.SetPosition(0, new Vector3(0, 0, 0));
+        lineRenderer.SetPosition(1, new Vector3(0, 0, 0));
     }
     // Called when a cell is clicked by the user
     public void OnCellClicked(int x, int y) {
@@ -42,7 +54,7 @@ public class TicTacToeGame : MonoBehaviour {
     }
     // Checks if there is a winner
     // Returns 1 if X won, 0 if no one won, and -1 if O won
-    public int Utility() {
+    public int Utility(bool winLine) {
         // Implement logic for checking rows, columns, and diagonals
         // initialize the list of winning pairs
         Vector2[] dir1 = { new Vector2(1f, 1f), new Vector2(-1f, -1f) };
@@ -69,6 +81,11 @@ public class TicTacToeGame : MonoBehaviour {
                     }
                 }
                 if (won != 0) {
+                    if (winLine) {
+                        Node n1 = graph.nodes[(int)(n.position.x + dirs[0].x), (int)(n.position.z + dirs[0].y)];
+                        Node n2 = graph.nodes[(int)(n.position.x + dirs[1].x), (int)(n.position.z + dirs[1].y)];
+                        DrawWinLine(n1, n2);
+                    }
                     return won;
                 }
             }
@@ -76,8 +93,13 @@ public class TicTacToeGame : MonoBehaviour {
         return 0;
     }
 
+    public void DrawWinLine(Node n1, Node n2) {
+        //For drawing line in the world space, provide the x,y,z values
+        lineRenderer.SetPosition(0, new Vector3(n1.position.x, 0, n1.position.z)); //x,y and z position of the starting point of the line
+        lineRenderer.SetPosition(1, new Vector3(n2.position.x, 0, n2.position.z)); //x,y and z position of the end point of the line
+    }
     public bool CheckForWinner() {
-        return Utility() != 0;
+        return Utility(true) != 0;
     }
 
     // Updates the UI to reflect the board state
@@ -118,7 +140,7 @@ public class TicTacToeGame : MonoBehaviour {
     // Implements the Minimax algorithm to evaluate possible moves
     public int Minimax(Node[,] nodes, bool isMaximizing) {
         // Implement the Minimax algorithm
-        int utility = Utility();
+        int utility = Utility(false);
         // checks for a winner or draw
         if (utility != 0 || graph.IsBoardFull()) {
             return utility;
